@@ -1,0 +1,84 @@
+---
+title: "Lab2"
+author: "Vlad Lavrynovych"
+date: "18 10 2021"
+output: html_document
+---
+
+Initializing normally distributed vector and printing its values
+
+```{r}
+v <- rnorm(100)
+v
+```
+
+
+```{r}
+print(v[10]) # 10th number of vector
+```
+
+
+```{r}
+print(v[(10:20)]) # from 10th to 20th number of vector including last (11 digits)
+```
+
+
+```{r}
+print(head(v[seq(20, length(v))], n=10)) # 10 numbers starting from 20th
+```
+
+
+```{r}
+print(v[v>0]) # all numbers greater than 0
+```
+
+Creating data frame and printing its data
+
+```{r}
+y <- data.frame(a = rnorm(100), b = 1:100, cc = sample(letters, 100, replace = TRUE))
+print(y)
+```
+
+
+```{r}
+print(tail(y, n=10)) # last 10 elements
+```
+
+
+```{r}
+print(y[10:20,]) # rows from 10 to 20 including last one
+```
+
+
+```{r}
+print(y[10, 2]) # 10th element of b column
+```
+
+
+```{r}
+data.frame(y$cc) # column cc using column name
+```
+
+
+Create vector and print its elements
+
+```{r}
+z <- c(1, 2, 3, NA, 4, NA, 5, NA)
+z
+```
+
+
+```{r}
+print(z[!is.na(z)]) # print all that is not na
+```
+
+
+```{r}
+mean(z, na.rm=TRUE) # mean without na
+```
+
+
+```{r}
+mean(z, na.rm=FALSE) # mean with na
+
+```
