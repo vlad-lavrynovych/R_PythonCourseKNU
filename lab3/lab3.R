@@ -24,7 +24,7 @@ my_ifelse(c(1,2,3,4,5), ">=", 3)
 
 
 columnmean <- function(x, removeNA=TRUE) {
-    
+    return(colMeans(x, removeNA))
 }
 
 mat2.data <- c(10,11,12,13,NA,15,16,17,NA)
@@ -35,4 +35,5 @@ columnmean(mat2)
 a <- c(5,15,NA,40)
 b <- c(NA,2,NA,8)
 df <- data.frame(a,b)
+df
 columnmean(df)
