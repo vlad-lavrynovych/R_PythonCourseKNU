@@ -1,0 +1,67 @@
+---
+title: "lab4"
+author: "Vlad Lavrynovych"
+date: "18 10 2021"
+output: html_document
+---
+
+```{r}
+data <- read.csv("hw1_data.csv")
+print(data)
+```
+
+
+```{r}
+colnames(data) # what are names of columns
+```
+
+
+```{r}
+head(data, n=6) # first 6 rows
+```
+
+
+```{r}
+nrow(data) # get number of rows
+```
+
+
+```{r}
+tail(data, n=10) # print 10 last rows
+```
+
+
+```{r}
+o <- data$Ozone
+o
+length(o[is.na(o)]) # number of na values
+```
+
+
+```{r}
+mean(o, na.rm=TRUE) # mean excluding na
+```
+
+
+```{r}
+s <- data[which(data$Ozone>31 & data$Temp>90), ] # subset on multiple conditions
+s
+mean(s$Solar.R) # mean of subset
+```
+
+
+```{r}
+j <- data[data$Month == 6,]
+j
+mean(j$Temp) # mean for Temp of June
+```
+
+
+```{r}
+m <- data[data$Month == 5,]
+m
+max(m$Ozone) # max including na
+max(m$Ozone[!is.na(m$Ozone)]) # max ignoring na
+
+```
+
