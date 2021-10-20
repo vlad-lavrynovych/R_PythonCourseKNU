@@ -1,0 +1,66 @@
+---
+title: "lab6"
+author: "Vlad Lavrynovych"
+date: "20 10 2021"
+output: html_document
+---
+
+```{r}
+m <- matrix(rnorm(50), ncol=5, nrow=10) #1
+m
+```
+
+
+```{r}
+apply(m,2,max) #2
+```
+
+
+```{r}
+apply(m,2,mean) #3
+```
+
+
+```{r}
+apply(m,1,min) #4
+```
+
+
+```{r}
+apply(m, 2, sort) #5
+```
+
+
+```{r}
+count <- function(c) {
+  return(length(c[c<0]))
+}
+
+apply(m, 2, count) #6
+```
+
+
+```{r}
+apply(m, 2, function(c) (length(c[c>2])>0)) #7
+```
+
+
+```{r}
+list1 <- list(observationA = c(1:5, 7:3), observationB = matrix(1:6, nrow=2))
+list1
+sum(lapply(list1, sum)$observationA, lapply(list1, sum)$observationB) #8
+```
+
+
+```{r}
+lapply(list1, range) #9
+```
+
+
+```{r}
+data <- InsectSprays
+sprays <- unique(data$spray)
+sprays
+sapply(sprays, function(spray1, data)  mean(data[data$spray == spray1, 1]), data) #10
+```
+
