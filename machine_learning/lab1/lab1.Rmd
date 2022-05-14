@@ -1,0 +1,80 @@
+Import data
+
+```{r}
+library(ggplot2)
+library(RColorBrewer)
+
+data1 <- readRDS("summarySCC_PM25.rds")
+data2 <- readRDS("Source_Classification_Code.rds")
+```
+Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? Make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
+```{r}
+t <- aggregate(Emissions ~ year, data1, sum)
+
+plot(t$year, t$Emissions, type = "o", col = "red", main = "Emissions by Year", ylab = "Emissions", xlab = "Year")
+```
+
+Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008?
+```{r}
+b <- subset(data1, data1$fips == "24510")
+
+t <- aggregate(Emissions ~ year, b, sum)
+
+plot(t$year, t$Emissions, main = "Emissions by Year", type="o", xlab = "Year", ylab = "Emissions", col = "red")
+```
+
+Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? Which have seen increases in emissions from 1999–200
+```{r}
+b <- subset(data1, data1$fips == "24510")
+b1 <- aggregate(Emissions ~ year + type, b, sum)
+
+ggplot(b1, aes(year, Emissions, col = type)) +
+      geom_line() +
+      geom_point() +
+      ggtitle("Emissions by Type and Year") +
+      ylab("Emissions") +
+      xlab("Year")
+```
+
+Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
+```{r}
+data2Coal <- data2[grepl("coal", data2$Short.Name, ignore.case = T),]
+data1Coal <- data1[data1$SCC %in% data2Coal$SCC,]
+totalCoal <- aggregate(Emissions ~ year + type, data1Coal, sum)
+
+ggplot(totalCoal, aes(year, Emissions, col = type)) +
+      geom_line() +
+      geom_point() +
+      ggtitle("Coal Emission by Type and Year") +
+      xlab("Year") +
+      ylab("Coal Emission")
+```
+
+How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City (EI.Sector starts from “Mobile”)?
+```{r}
+b <- subset(data1, data1$fips == "24510" & data1$type == "ON-ROAD")
+b1 <- aggregate(Emissions ~ year, b, sum)
+
+ggplot(b1, aes(year, Emissions)) +
+      geom_line(col = "red") +
+      geom_point(col = "red") +
+      ggtitle("Motor Vehicle Emissions by Year") +
+      xlab("Year") +
+      ylab("Motor Vehicle Emissions")
+```
+
+Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions?
+```{r}
+b <- subset(data1, data1$fips %in% c("24510","06037") & data1$type == "ON-ROAD")
+b1 <- aggregate(Emissions ~ year + fips, b, sum)
+
+ggplot(b1, aes(year, Emissions, col = fips)) +
+      geom_line() +
+      geom_point() +
+      ggtitle("Motor Vehicle Emissions by Year") +
+      labs(x = "Year", y = "Motor Vehicle Emissions") +
+      scale_colour_discrete(name = "City", labels = c("Los Angeles", "Baltimore")) +
+      theme(legend.title = element_text(face = "bold"))
+
+```
+
